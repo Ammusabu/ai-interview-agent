@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Interview Assistant</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<!-- Particles Background -->
+<div id="particles-js"></div>
+
+<div class="container">
+    <div class="robot">🤖</div>
+
+    <h1>AI Interview Assistant</h1>
+    <p class="subtitle">Practice technical interviews with AI-powered feedback</p>
+
+    <div class="input-group">
+        <input type="text" id="role" placeholder="Role (e.g. Backend Developer)">
+        <input type="text" id="level" placeholder="Level (e.g. Beginner)">
+        <button onclick="generateQuestions()">Generate</button>
+    </div>
+
+    <div id="questions"></div>
+</div>
+
+<!-- Particle JS -->
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+<script>
+// 🎯 Generate Questions
+async function generateQuestions() {
+    const role = document.getElementById("role").value;
+    const level = document.getElementById("level").value;
+
+    const response = await fetch("/start-interview", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ role, level })
+    });
+
+    const data = await response.json();
+    const session_id = data.session_id;
+
+    const qRes = await fetch(`/generate-questions/${session_id}`);
+    const qData = await qRes.json();
+
+    const list = document.getElementById("questions");
+    list.innerHTML = "";
+
+    qData.questions
+        .filter(q => q && q.length > 5)
+        .forEach((q, index) => {
+            const div = document.createElement("div");
+            div.className = "question-card";
+
+            div.innerHTML = `
+                <h3>Question ${index + 1}</h3>
+                <p>${q}</p>
+                <textarea placeholder="Type your answer here..."></textarea>
+                <button onclick="evaluateAnswer('${q}', this)">Evaluate</button>
+                <div class="result"></div>
+            `;
+
+            list.appendChild(div);
+        });
+}
+
+// 🎯 Evaluate Answer
+async function evaluateAnswer(question, btn) {
+    const textarea = btn.previousElementSibling;
+    const answer = textarea.value;
+
+    btn.innerText = "Evaluating...";
+
+    const res = await fetch("/evaluate-answer", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ question, answer })
+    });
+
+    const data = await res.json();
+
+    btn.innerText = "Evaluate";
+
+    const resultDiv = btn.nextElementSibling;
+    resultDiv.innerHTML = data.result
+        .replace("Score:", "<b>Score:</b>")
+        .replace("Feedback:", "<br><b>Feedback:</b>")
+        .replace("Improvement:", "<br><b>Improvement:</b>");
+}
+
+// 🎯 Particles Config
+particlesJS("particles-js", {
+  particles: {
+    number: { value: 70 },
+    color: { value: "#38bdf8" },
+    shape: { type: "circle" },
+    opacity: { value: 0.4 },
+    size: { value: 3 },
+    move: { enable: true, speed: 2 }
+  },
+  interactivity: {
+    events: {
+      onhover: { enable: true, mode: "repulse" }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
