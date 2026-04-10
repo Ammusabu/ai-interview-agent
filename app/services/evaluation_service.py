@@ -4,12 +4,20 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("GROQ_API_KEY"),
-    base_url="https://api.groq.com/openai/v1"
-)
+def get_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY not set")
+
+    return OpenAI(
+        api_key=api_key,
+        base_url="https://api.groq.com/openai/v1"
+    )
+
 
 def evaluate_answer(question: str, answer: str):
+    client = get_client()  # ✅ moved here
+
     prompt = f"""
 You are a professional technical interviewer.
 
@@ -28,12 +36,12 @@ Feedback: (2-3 lines)
 Improvement: (1 suggestion)
 """
 
+
     try:
         response = client.chat.completions.create(
             model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": prompt}]
         )
-
         return response.choices[0].message.content
 
     except Exception as e:

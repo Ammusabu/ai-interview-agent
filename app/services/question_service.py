@@ -19,23 +19,7 @@ def get_client():
 def generate_questions(role: str, level: str):
     client = get_client()  # ✅ moved here
 
-    prompt = f"""
-Generate exactly 5 interview questions for a {role} at {level} level.
-
-Return ONLY this JSON format:
-[
-  "Question 1",
-  "Question 2",
-  "Question 3",
-  "Question 4",
-  "Question 5"
-]
-
-Rules:
-- No explanations
-- No markdown
-- No extra text
-"""
+    prompt = f""" Generate exactly 5 interview questions for a {role} at {level} level. Return ONLY this JSON format: [ "Question 1", "Question 2", "Question 3", "Question 4", "Question 5" ] Rules: - No explanations - No markdown - No extra text """
 
     try:
         response = client.chat.completions.create(
