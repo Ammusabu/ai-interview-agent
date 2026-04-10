@@ -1,8 +1,11 @@
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
+import json
 
 load_dotenv()
+
+print("KEY:", os.getenv("GROQ_API_KEY"))  # 👈 ADD THIS LINE
 
 client = OpenAI(
     api_key=os.getenv("GROQ_API_KEY"),
