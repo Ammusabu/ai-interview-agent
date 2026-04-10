@@ -4,7 +4,8 @@
 
 🚀 **Live Demo:** https://ai-interview-llm-agent.up.railway.app//
 
-<img width="1600" height="951" alt="image" src="https://github.com/user-attachments/assets/269be6e9-38dc-466c-a31f-93fd2e7336a7" />
+<img width="1600" height="903" alt="image" src="https://github.com/user-attachments/assets/b0251b99-766e-4d10-b800-86d669f526b2" />
+
 
 <br>
 
