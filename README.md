@@ -2,6 +2,8 @@
 
 > An AI agent that simulates real technical interviews — generates role-based questions, evaluates your answers with an LLM, and returns structured scores and feedback. Built to demonstrate backend engineering, AI integration, and system design.
 
+🚀 **Live Demo:** https://ai-interview-llm-agent.up.railway.app//
+
 <img width="1600" height="951" alt="image" src="https://github.com/user-attachments/assets/269be6e9-38dc-466c-a31f-93fd2e7336a7" />
 
 <br>
