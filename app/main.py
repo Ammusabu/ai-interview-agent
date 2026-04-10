@@ -5,6 +5,9 @@ from fastapi.staticfiles import StaticFiles
 from app.api.routes import router
 
 app = FastAPI()
+from app.db.database import Base, engine
+
+Base.metadata.create_all(bind=engine)
 app.include_router(router) 
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
