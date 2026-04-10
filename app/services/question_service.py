@@ -5,12 +5,20 @@ import json
 
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.getenv("GROQ_API_KEY"),
-    base_url="https://api.groq.com/openai/v1"
-)
+def get_client():
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY not set")
+
+    return OpenAI(
+        api_key=api_key,
+        base_url="https://api.groq.com/openai/v1"
+    )
+
 
 def generate_questions(role: str, level: str):
+    client = get_client()  # ✅ moved here
+
     prompt = f"""
 Generate exactly 5 interview questions for a {role} at {level} level.
 
@@ -37,9 +45,7 @@ Rules:
 
         text = response.choices[0].message.content.strip()
 
-        # ✅ Clean parsing
         questions = json.loads(text)
-
         return questions
 
     except Exception as e:
