@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import json
 
-load_dotenv()
+load_dotenv(override=False) 
 
 def get_client():
     import os
