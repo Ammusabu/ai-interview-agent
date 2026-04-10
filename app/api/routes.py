@@ -52,10 +52,17 @@ from app.models.interview import InterviewSession
 def start_interview(
     data: InterviewCreate,
     db: Session = Depends(get_db),
-    
 ):
-    # find user
     user = db.query(User).first()
+
+    if not user:
+        user = User(
+            email="test@example.com",
+            password=hash_password("test123")
+        )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
 
     session = InterviewSession(
         user_id=user.id,
