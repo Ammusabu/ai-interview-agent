@@ -6,6 +6,9 @@ import json
 load_dotenv()
 
 def get_client():
+    import os
+    print("🔍 ENV CHECK >>>", os.environ)
+    print("🔑 KEY CHECK >>>", os.getenv("GROQ_API_KEY"))
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         raise ValueError("GROQ_API_KEY not set")
