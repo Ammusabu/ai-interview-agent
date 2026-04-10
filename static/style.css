@@ -388,3 +388,11 @@ textarea::placeholder { color: var(--muted); }
     .input-group { grid-template-columns: 1fr; }
     #genBtn { width: 100%; justify-content: center; }
 }
+
+.footer {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 10px;
+    color: var(--muted);
+    opacity: 0.5;
+}
